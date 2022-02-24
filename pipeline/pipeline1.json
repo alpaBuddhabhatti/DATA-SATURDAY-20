@@ -171,7 +171,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": {
-						"value": "@concat('https://login.microsoftonline.com/b00367e2-193a-4f48-94de-7245d45c0947/oauth2/token')",
+						"value": "@concat('https://login.microsoftonline.com/c10d9100-7f58-4e3c-af7d-0cc0317096ea/oauth2/token')",
 						"type": "Expression"
 					},
 					"method": "POST",
@@ -198,7 +198,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": {
-						"value": "https://azdev-kv-powerbi2021.vault.azure.net/secrets/TenantId?api-version=7.1",
+						"value": "https://az-kv-powerbi2021.vault.azure.net/secrets/TenantId?api-version=7.1",
 						"type": "Expression"
 					},
 					"method": "GET",
@@ -225,7 +225,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": {
-						"value": "https://azdev-kv-powerbi2021.vault.azure.net/secrets/ClientId?api-version=7.1\n",
+						"value": "https://az-kv-powerbi2021.vault.azure.net/secrets/ClientId?api-version=7.1\n",
 						"type": "Expression"
 					},
 					"method": "GET",
@@ -252,7 +252,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": {
-						"value": "https://azdev-kv-powerbi2021.vault.azure.net/secrets/ClientSecret?api-version=7.1",
+						"value": "https://az-kv-powerbi2021.vault.azure.net/secrets/ClientSecret?api-version=7.1",
 						"type": "Expression"
 					},
 					"method": "GET",
