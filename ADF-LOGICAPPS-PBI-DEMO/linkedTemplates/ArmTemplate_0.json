@@ -232,6 +232,9 @@
 						"defaultValue": "8503eed1-3b55-4fdf-91ab-5d286e458647"
 					}
 				},
+				"folder": {
+					"name": "Extra"
+				},
 				"annotations": [],
 				"lastPublishTime": "2022-02-24T22:56:50Z"
 			},
@@ -250,7 +253,7 @@
 							{
 								"activity": "Get AAD Token",
 								"dependencyConditions": [
-									"Succeeded"
+									"Skipped"
 								]
 							}
 						],
@@ -515,15 +518,6 @@
 					"cancelAfter": {}
 				},
 				"parameters": {
-					"SecretName_TenantId": {
-						"type": "String"
-					},
-					"SecretName_SPClientId": {
-						"type": "String"
-					},
-					"SecretName_SPSecret": {
-						"type": "String"
-					},
 					"KeyVaultDNSName": {
 						"type": "string",
 						"defaultValue": "https://az-kv-powerbi2021.vault.azure.net/"
