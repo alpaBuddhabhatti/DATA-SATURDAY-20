@@ -131,7 +131,7 @@
 					{
 						"activity": "Get AAD Token",
 						"dependencyConditions": [
-							"Succeeded"
+							"Skipped"
 						]
 					}
 				],
