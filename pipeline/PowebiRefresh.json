@@ -200,6 +200,9 @@
 				"defaultValue": "8503eed1-3b55-4fdf-91ab-5d286e458647"
 			}
 		},
+		"folder": {
+			"name": "Extra"
+		},
 		"annotations": [],
 		"lastPublishTime": "2022-02-24T22:56:50Z"
 	},
