@@ -44,7 +44,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@activity('Lookup').output.firstRow.IsNewuser",
+						"value": "@if(contains(string(activity('Lookup').output),'firstRow'),activity('Lookup').output.firstRow.flag,false)",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
