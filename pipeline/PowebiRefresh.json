@@ -145,7 +145,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": {
-						"value": "https://api.powerbi.com/v1.0/myorg/groups/991c312f-c2b8-49a4-9c5c-b978f9cb4792/datasets/c312a006-9934-4084-a52b-ba6532ed284b/refreshes",
+						"value": "https://api.powerbi.com/v1.0/myorg/groups/991c312f-c2b8-49a4-9c5c-b978f9cb4792/datasets/c312a006-9934-4084-a52b-ba6532ed284b/refreshes\n",
 						"type": "Expression"
 					},
 					"method": "POST",
