@@ -145,7 +145,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": {
-						"value": "https://api.powerbi.com/v1.0/myorg/groups/8cba7407-d519-4f07-8294-8a807d6ba0ec/datasets/8503eed1-3b55-4fdf-91ab-5d286e458647/refreshes",
+						"value": "@concat('https://api.powerbi.com/v1.0/myorg/groups/',pipeline().parameters.workspaceGuid,'/datasets/',pipeline().parameters.datasetGuid,'/refreshes')",
 						"type": "Expression"
 					},
 					"method": "POST",
@@ -193,11 +193,11 @@
 		"parameters": {
 			"workspaceGuid": {
 				"type": "string",
-				"defaultValue": "991c312f-c2b8-49a4-9c5c-b978f9cb4792"
+				"defaultValue": "8cba7407-d519-4f07-8294-8a807d6ba0ec"
 			},
 			"datasetGuid": {
 				"type": "string",
-				"defaultValue": "c312a006-9934-4084-a52b-ba6532ed284b"
+				"defaultValue": "8503eed1-3b55-4fdf-91ab-5d286e458647"
 			}
 		},
 		"annotations": [],
