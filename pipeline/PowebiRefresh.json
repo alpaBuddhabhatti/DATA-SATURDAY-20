@@ -17,7 +17,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": {
-						"value": "https://azdev-kv-powerbi2021.vault.azure.net/secrets/ClientId?api-version=7.1",
+						"value": "https://az-kv-powerbi2021.vault.azure.net/secrets/ClientId?api-version=7.1",
 						"type": "Expression"
 					},
 					"method": "GET",
@@ -41,7 +41,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": {
-						"value": "https://azdev-kv-powerbi2021.vault.azure.net/secrets/ClientSecret?api-version=7.1",
+						"value": "https://az-kv-powerbi2021.vault.azure.net/secrets/ClientSecret?api-version=7.1",
 						"type": "Expression"
 					},
 					"method": "GET",
@@ -65,7 +65,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": {
-						"value": "https://azdev-kv-powerbi2021.vault.azure.net/secrets/TenantId?api-version=7.1",
+						"value": "https://az-kv-powerbi2021.vault.azure.net/secrets/TenantId?api-version=7.1",
 						"type": "Expression"
 					},
 					"method": "GET",
