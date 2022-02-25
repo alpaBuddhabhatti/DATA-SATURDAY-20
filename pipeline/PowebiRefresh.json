@@ -181,7 +181,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://prod-24.northcentralus.logic.azure.com:443/workflows/726c6f999ccb4e65b39cf124f951ed4b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=sm97nvCVNxotmO_gJKh3IZOwdij9JCTazTYqROq_3UI",
+					"url": {
+						"value": "https://prod-30.northcentralus.logic.azure.com:443/workflows/59d0e7b33c4c447ab1b4a70783284f87/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=nYhCywnvh_TOBoaMEVu347RW7Z4DQyKMCoknPKZ1fYw",
+						"type": "Expression"
+					},
 					"method": "POST",
 					"body": []
 				}
