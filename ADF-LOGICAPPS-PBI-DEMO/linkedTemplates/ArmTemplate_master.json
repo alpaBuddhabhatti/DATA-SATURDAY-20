@@ -11,6 +11,10 @@
 			"type": "string",
 			"defaultValue": "https://AZ-KV-Powerbi2021.vault.azure.net/"
 		},
+		"LS_ASQL_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "AZDEV-ASQL-CONN"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -40,6 +44,9 @@
 					},
 					"LS_KV_properties_typeProperties_baseUrl": {
 						"value": "[parameters('LS_KV_properties_typeProperties_baseUrl')]"
+					},
+					"LS_ASQL_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('LS_ASQL_properties_typeProperties_connectionString_secretName')]"
 					}
 				}
 			},

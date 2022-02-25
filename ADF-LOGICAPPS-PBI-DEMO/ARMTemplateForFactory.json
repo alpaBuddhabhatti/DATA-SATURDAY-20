@@ -10,6 +10,10 @@
 		"LS_KV_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://AZ-KV-Powerbi2021.vault.azure.net/"
+		},
+		"LS_ASQL_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "AZDEV-ASQL-CONN"
 		}
 	},
 	"variables": {
@@ -154,7 +158,7 @@
 							{
 								"activity": "Get AAD Token",
 								"dependencyConditions": [
-									"Succeeded"
+									"Skipped"
 								]
 							}
 						],
@@ -168,7 +172,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"url": {
-								"value": "https://api.powerbi.com/v1.0/myorg/groups/991c312f-c2b8-49a4-9c5c-b978f9cb4792/datasets/c312a006-9934-4084-a52b-ba6532ed284b/refreshes",
+								"value": "@concat('https://api.powerbi.com/v1.0/myorg/groups/',pipeline().parameters.workspaceGuid,'/datasets/',pipeline().parameters.datasetGuid,'/refreshes')",
 								"type": "Expression"
 							},
 							"method": "POST",
@@ -218,6 +222,16 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
+				"parameters": {
+					"workspaceGuid": {
+						"type": "string",
+						"defaultValue": "8cba7407-d519-4f07-8294-8a807d6ba0ec"
+					},
+					"datasetGuid": {
+						"type": "string",
+						"defaultValue": "8503eed1-3b55-4fdf-91ab-5d286e458647"
+					}
+				},
 				"annotations": [],
 				"lastPublishTime": "2022-02-24T22:56:50Z"
 			},
@@ -230,8 +244,8 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Power BI Dataset - Refresh",
-						"type": "WebActivity",
+						"name": "Lookup",
+						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
@@ -242,13 +256,90 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": {
-								"value": "https://prod-30.northcentralus.logic.azure.com:443/workflows/59d0e7b33c4c447ab1b4a70783284f87/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=nYhCywnvh_TOBoaMEVu347RW7Z4DQyKMCoknPKZ1fYw",
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select isNewUser from dbo.users where isNewUser=1",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_ASQL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "Is New Data",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "Lookup",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@if(contains(string(activity('Lookup').output),'firstRow'),activity('Lookup').output.firstRow.IsNewUser,false)",
 								"type": "Expression"
 							},
-							"method": "POST",
-							"headers": {},
-							"body": []
+							"ifTrueActivities": [
+								{
+									"name": "Power BI Dataset - Refresh",
+									"type": "WebActivity",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"url": {
+											"value": "https://prod-30.northcentralus.logic.azure.com:443/workflows/59d0e7b33c4c447ab1b4a70783284f87/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=nYhCywnvh_TOBoaMEVu347RW7Z4DQyKMCoknPKZ1fYw",
+											"type": "Expression"
+										},
+										"method": "POST",
+										"headers": {},
+										"body": []
+									}
+								},
+								{
+									"name": "Update Table",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "Power BI Dataset - Refresh",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[UpdateIsNew]"
+									},
+									"linkedServiceName": {
+										"referenceName": "LS_ASQL",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
 						}
 					}
 				],
@@ -259,10 +350,13 @@
 				"annotations": [],
 				"lastPublishTime": "2022-02-24T22:26:05Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_ASQL')]",
+				"[concat(variables('factoryId'), '/linkedServices/LS_ASQL')]"
+			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"name": "[concat(parameters('factoryName'), '/POBI_REF_WITH_STATUS')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -540,16 +634,13 @@
 				},
 				"parameters": {
 					"SecretName_TenantId": {
-						"type": "String",
-						"defaultValue": "c10d9100-7f58-4e3c-af7d-0cc0317096ea"
+						"type": "String"
 					},
 					"SecretName_SPClientId": {
-						"type": "String",
-						"defaultValue": "d9fad4ad-4cb1-4f3b-bc0a-085441b5a7a4"
+						"type": "String"
 					},
 					"SecretName_SPSecret": {
-						"type": "String",
-						"defaultValue": "moQ7Q~kW6fxCfNR3Pb2PTVQATcXVv70SHQaOk"
+						"type": "String"
 					},
 					"KeyVaultDNSName": {
 						"type": "string",
@@ -586,6 +677,46 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_ASQL')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "LS_KV",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('LS_ASQL_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_KV')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_ASQL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ASQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_ASQL')]"
+			]
 		}
 	]
 }
