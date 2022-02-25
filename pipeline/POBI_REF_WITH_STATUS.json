@@ -267,15 +267,6 @@
 			}
 		],
 		"parameters": {
-			"SecretName_TenantId": {
-				"type": "String"
-			},
-			"SecretName_SPClientId": {
-				"type": "String"
-			},
-			"SecretName_SPSecret": {
-				"type": "String"
-			},
 			"KeyVaultDNSName": {
 				"type": "string",
 				"defaultValue": "https://az-kv-powerbi2021.vault.azure.net/"
