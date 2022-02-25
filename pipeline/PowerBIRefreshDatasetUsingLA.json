@@ -18,7 +18,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select isNewUser from dbo.users",
+							"value": "select isNewUser from dbo.users where isNewUser=1",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
