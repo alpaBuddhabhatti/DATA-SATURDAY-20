@@ -7,13 +7,25 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "ADF-LOGICAPPS-PBI-DEMO"
 		},
+		"LS_ASQL_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "AZDEV-ASQL-CONN"
+		},
 		"LS_KV_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://AZ-KV-Powerbi2021.vault.azure.net/"
 		},
-		"LS_ASQL_properties_typeProperties_connectionString_secretName": {
+		"dataFactory_properties_globalParameters_ENV_value": {
 			"type": "string",
-			"defaultValue": "AZDEV-ASQL-CONN"
+			"defaultValue": "DEV"
+		},
+		"dataFactory_location": {
+			"type": "string",
+			"defaultValue": "centralus"
+		},
+		"dataFactory_identity_type": {
+			"type": "string",
+			"defaultValue": "SystemAssigned"
 		},
 		"containerUri": {
 			"type": "string",
@@ -41,6 +53,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"dataFactory_properties_globalParameters_ENV_value": {
+						"value": "[parameters('dataFactory_properties_globalParameters_ENV_value')]"
+					},
+					"dataFactory_location": {
+						"value": "[parameters('dataFactory_location')]"
+					},
+					"dataFactory_identity_type": {
+						"value": "[parameters('dataFactory_identity_type')]"
 					},
 					"LS_KV_properties_typeProperties_baseUrl": {
 						"value": "[parameters('LS_KV_properties_typeProperties_baseUrl')]"
