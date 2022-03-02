@@ -1,5 +1,13 @@
 {
 	"name": "ADF-LOGICAPPS-PBI-DEMO",
+	"properties": {
+		"globalParameters": {
+			"ENV": {
+				"type": "string",
+				"value": "DEV"
+			}
+		}
+	},
 	"location": "centralus",
 	"identity": {
 		"type": "SystemAssigned",
